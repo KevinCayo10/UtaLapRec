@@ -94,3 +94,6 @@ Agregar en el `root` un archivo `vercel.json` con este contenido
 ```
 
 Fuente: [https://github.com/vercel/vercel/issues/7475#issuecomment-1101659972](https://github.com/vercel/vercel/issues/7475#issuecomment-1101659972)
+
+Autor:
+[Matias Baldanza](https://github.com/matiasbaldanza)
