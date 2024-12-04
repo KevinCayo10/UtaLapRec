@@ -8,14 +8,6 @@
 
 ## Deploy
 
-Repo: https://github.com/matiasbaldanza/ecommerce-reactjs
-
-![Gif mostrando la navegación](README/matiasbaldanza-ecommerce-reactjs-demo-nav.gif)
-
-[Deploy en Vercel](https://ecommerce-reactjs-hazel.vercel.app)
-
-<hr />
-
 ## Creado con
 
 - [React.js](https://react.dev/)
@@ -32,7 +24,6 @@ Luego de clonar el repositorio, instalar las dependencias
 
 ```bash
 pnpm install
-pnpm i firebase
 ```
 
 <hr />
