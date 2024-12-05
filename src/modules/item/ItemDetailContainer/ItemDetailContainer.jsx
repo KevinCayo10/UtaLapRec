@@ -13,17 +13,6 @@ function ItemDetailContainer() {
 
   useEffect(() => {
     setLoading(true);
-
-    // getProductById(productId)
-    //   .then((response) => {
-    //     setProduct(response)
-    //     setLoading(false)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //     setLoading(false)
-    //   })
-
     fetch(`http://localhost:5000/api/products/${productId}`)
       .then((response) => {
         if (!response.ok) {
@@ -32,7 +21,7 @@ function ItemDetailContainer() {
         return response.json();
       })
       .then((data) => {
-        console.log("DATA detail : ", data.data)
+        console.log("DATA detail : ", data.data);
         setProduct(data.data);
         setLoading(false);
       });

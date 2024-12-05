@@ -20,6 +20,7 @@ function ItemDetail({ ...props }) {
     availability,
     urlImg,
     description,
+    characteristics,
   } = { ...props };
 
   const { addItemToCart } = useContext(CartContext);
@@ -56,7 +57,7 @@ function ItemDetail({ ...props }) {
           id={id}
           src={urlImg[0]}
           alt={title}
-          className="flex  items-center justify-center"
+          className="flex  items-center justify-center  h-full"
         />
       </header>
 
@@ -70,8 +71,8 @@ function ItemDetail({ ...props }) {
           />
         )} */}
         <ProductDescription {...{ title, description }} />
-        {/* {features && <ProductSpecs features={features} />} */}
-      </main> 
+        {characteristics && <ProductSpecs features={characteristics} />}
+      </main>
     </article>
   );
 }

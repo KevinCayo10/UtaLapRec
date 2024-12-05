@@ -19,12 +19,7 @@ function ItemPreview({ id, name, images, ...props }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <ProductImage
-        src={images[0]}
-        id={id}
-        alt={name}
-        className={props.className}
-      />
+      <ProductImage src={images[0]} id={id} alt={name} className={"h-64"} />
       <ProductImage
         src={images[1]}
         alt={name}

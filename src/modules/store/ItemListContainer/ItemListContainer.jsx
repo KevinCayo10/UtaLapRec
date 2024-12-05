@@ -12,8 +12,10 @@ function ItemListContainer({ ...props }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Número de productos por página
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+  const { categoryId } = useParams();
+
+  const getProduct = () => {
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/products`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error en la solicitud");
@@ -25,7 +27,33 @@ function ItemListContainer({ ...props }) {
         setLoading(false);
       })
       .catch((error) => console.error(error));
-  }, []);
+  };
+
+  const getProductByCategories = () => {
+    console.log("GET PRODUC BY CATEGO");
+    fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}api/products/category/${categoryId}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la solicitud");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProducts(data.data);
+        setLoading(false);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  useEffect(() => {
+    if (categoryId) {
+      getProductByCategories(); // Si hay un categoryId, filtra los productos por categoría
+    } else {
+      getProduct(); // Si no hay un categoryId, obtiene todos los productos
+    }
+  }, [categoryId]);
 
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
