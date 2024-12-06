@@ -1,16 +1,13 @@
-import clsx from 'clsx'
+import clsx from "clsx";
 
-function Badge ({ children, ...props }) {
-  const baseStyles = `font-extrabold border-0 text-brand bg-background badge badge-sm indicator-item
-                      sm:text-background sm:bg-foreground`
+function Badge({ children, ...props }) {
+  const baseStyles = `font-extrabold border-0  bg-red-500 badge badge-sm indicator-item
+                       sm:bg-red-500`;
   return (
-    <span
-      className={clsx(baseStyles, props.className)}
-      {...props}
-    >
+    <span className={clsx(baseStyles, props.className)} {...props}>
       {children}
     </span>
-  )
+  );
 }
 
-export default Badge
+export default Badge;
