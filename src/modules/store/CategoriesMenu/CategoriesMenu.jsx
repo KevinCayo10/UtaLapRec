@@ -33,11 +33,10 @@ function CategoriesMenu({ menuItems }) {
 }
 
 function MenuItems({ items }) {
-  console.log("ITEM : ", items);
   return (
     <>
       <li>
-        <NavLink to="/">Todos</NavLink>
+        <NavLink to="/store">Todos</NavLink>
         {/* Hardcodeado Link a '/' en las categorías. TODO: agregar categoria 'all' */}
       </li>
       {items.map((item, index) => (

@@ -1,8 +1,7 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Balancer from "react-wrap-balancer";
 import clsx from "clsx";
-
 import { CartContext } from "@/context/CartContext";
 
 // Componentes
@@ -12,6 +11,7 @@ import ItemPreview from "../ItemPreview";
 import QuickAddToCart from "@/modules/store/QuickAddToCart/";
 
 function ItemCard({ ...props }) {
+  const [isInWishList, setIsInWishList] = useState(false);
   const {
     id,
     title,
@@ -29,14 +29,24 @@ function ItemCard({ ...props }) {
                        relative group`
   );
 
+  useEffect(() => {
+    const wishList = JSON.parse(localStorage.getItem("tuportatil-cart")) || []; // Si no existe, inicializa como array vacío
+    const exists = wishList.some((item) => item.id === id);
+    setIsInWishList(exists); // Si existe, se establece en true; de lo contrario, en false
+  }, [addItemToCart]);
+
+  const addToWishList = () => {
+    setIsInWishList(true);
+  };
+
   const handleChildClick = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
+    event.stopPropagation(); // Evita que el clic en el botón active el Link
+    event.preventDefault(); // Evita la acción de redirección
   };
 
   return (
     <article className={styles}>
-      <Link to={`/${id}`}>
+      <Link to={`/${id}`} className="relative">
         <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-primary top-2 right-2">
           {category}
         </p>
@@ -45,22 +55,28 @@ function ItemCard({ ...props }) {
           onClick={handleChildClick}
         >
           {stock > 0 && availability ? (
-            <QuickAddToCart
-              className="p-2 btn-primary"
-              onClick={() =>
-                addItemToCart({ title, price, quantity: 1 }, stock)
-              }
-            />
+            <p className="z-40 text-xs font-bold uppercase badge">Disponible</p>
           ) : (
             <p className="z-40 text-xs font-bold uppercase badge">Sin stock</p>
           )}
         </div>
-        <div className="p-4 pt-0 card-body">
+        {/* Aquí colocamos el QuickAddToCart con un z-index alto */}
+        <QuickAddToCart
+          className=" z-50 absolute top-0 left-0"
+          inWishList={isInWishList}
+          onClick={(event) => {
+            // Detiene la propagación del clic para evitar la redirección
+            handleChildClick(event);
+            addItemToCart({ id, title, urlImg, price, quantity: 1 }, stock);
+            addToWishList();
+          }}
+        />
+        <div className="p-2 pt-0 card-body">
           <ItemPreview className="" id={id} images={urlImg} alt={title} />
           <h3>
             <Balancer ratio={0.5}>
               <TextWithLineBreaks onlyBreakFirstLine styled>
-                {title}
+                {title.replace(/[\n\t]/g, "")}
               </TextWithLineBreaks>
             </Balancer>
           </h3>

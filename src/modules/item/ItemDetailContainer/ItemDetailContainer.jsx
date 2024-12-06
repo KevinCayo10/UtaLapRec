@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 // Componentes
 import ItemDetail from "../ItemDetail";
+import Loading from "@/modules/layout/Loading";
 
 function ItemDetailContainer() {
   const [product, setProduct] = useState({});
@@ -30,7 +31,7 @@ function ItemDetailContainer() {
   return (
     <>
       <div className="flex flex-col items-center w-full gap-4">
-        {loading ? <p>Cargando...</p> : <ItemDetail {...product} />}
+        {loading ? <Loading /> : <ItemDetail {...product} />}
       </div>
       {/* TODO: Ver por qué no renderiza el Footer que está en App.jsx cuando está en la página de producto */}
     </>

@@ -1,17 +1,24 @@
 import { useState, useEffect } from "react";
-import { getProducts, getProductsByCategory } from "@/mocks/asyncMock";
 import { useParams } from "react-router-dom";
 
 // Componentes
-import ItemList from "@/modules/store/ItemList";
 import Paginator from "../Paginator";
+import ItemList from "../ItemList/ItemList";
+import Filter from "../Filter";
+import Loading from "@/modules/layout/Loading";
 
 function ItemListContainer({ ...props }) {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Número de productos por página
-
+  const itemsPerPage = 12; // Número de productos por página
+  const [filters, setFilters] = useState({
+    selectedBrand: "",
+    selectedCategory: "",
+    priceMin: 100,
+    priceMax: 200,
+  });
   const { categoryId } = useParams();
 
   const getProduct = () => {
@@ -29,35 +36,49 @@ function ItemListContainer({ ...props }) {
       .catch((error) => console.error(error));
   };
 
-  const getProductByCategories = () => {
-    console.log("GET PRODUC BY CATEGO");
-    fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}api/products/category/${categoryId}`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error en la solicitud");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setProducts(data.data);
-        setLoading(false);
-      })
-      .catch((error) => console.error(error));
-  };
-
   useEffect(() => {
-    if (categoryId) {
-      getProductByCategories(); // Si hay un categoryId, filtra los productos por categoría
-    } else {
-      getProduct(); // Si no hay un categoryId, obtiene todos los productos
-    }
-  }, [categoryId]);
+    getProduct(); // Si no hay un categoryId, obtiene todos los productos
+  }, []);
 
+  // Filtrar productos según los filtros seleccionados
+  useEffect(() => {
+    const filterProducts = () => {
+      let filtered = [...products];
+      // Filtrar por marca
+      if (filters.selectedBrand) {
+        console.log("ENTRO brand");
+        filtered = filtered.filter(
+          (product) => product.brand === filters.selectedBrand
+        );
+      }
+
+      // Filtrar por categoría
+      if (filters.selectedCategory) {
+        console.log("ENTRO category");
+        filtered = filtered.filter(
+          (product) => product.category === filters.selectedCategory
+        );
+      }
+
+      // Filtrar por precio
+      if (filters.priceMin || filters.priceMax) {
+        filtered = filtered.filter(
+          (product) =>
+            product.price >= filters.priceMin &&
+            product.price <= filters.priceMax
+        );
+      }
+
+      setFilteredProducts(filtered); // Actualizamos los productos filtrados
+    };
+
+    filterProducts(); // Aplicar los filtros cada vez que los filtros cambian
+  }, [filters, products]); // Los filtros o los productos deben cambiar para que se aplique el filtro
+
+  // Paginación
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-  const currentProducts = products.slice(
+  const currentProducts = filteredProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -66,15 +87,25 @@ function ItemListContainer({ ...props }) {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   return (
     <div className="container flex flex-col items-center gap-4 mx-auto">
       {props.children}
       {loading ? (
-        <p>Cargando...</p>
+        <span className="loading loading-dots loading-xs">Cargando...</span>
       ) : (
         <>
+          <img
+            class="object-cover rounded-xl"
+            src="https://www.tekboss.com.ec/wp-content/uploads/2024/02/fe00531-600x600.jpg"
+            alt="Laptop HP Envy x360 15-FE0053"
+          ></img>
+          <Filter onFilterChange={handleFilterChange} />
           <ItemList products={currentProducts} />
           <Paginator
             totalPages={totalPages}
@@ -88,5 +119,3 @@ function ItemListContainer({ ...props }) {
 }
 
 export default ItemListContainer;
-
-//
