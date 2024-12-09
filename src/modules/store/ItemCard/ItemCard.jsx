@@ -9,6 +9,7 @@ import TextWithLineBreaks from "../../item/TextWithLineBreaks";
 import Price from "../../item/Price";
 import ItemPreview from "../ItemPreview";
 import QuickAddToCart from "@/modules/store/QuickAddToCart/";
+import toast from "react-hot-toast";
 
 function ItemCard({ ...props }) {
   const [isInWishList, setIsInWishList] = useState(false);
@@ -21,6 +22,8 @@ function ItemCard({ ...props }) {
     urlImg,
     stock,
     availability,
+    store_name,
+    link,
   } = props;
   const { addItemToCart } = useContext(CartContext);
   const styles = clsx(
@@ -30,6 +33,7 @@ function ItemCard({ ...props }) {
   );
 
   useEffect(() => {
+    console.log("ITEM CARD");
     const wishList = JSON.parse(localStorage.getItem("tuportatil-cart")) || []; // Si no existe, inicializa como array vacío
     const exists = wishList.some((item) => item.id === id);
     setIsInWishList(exists); // Si existe, se establece en true; de lo contrario, en false
@@ -37,6 +41,33 @@ function ItemCard({ ...props }) {
 
   const addToWishList = () => {
     setIsInWishList(true);
+    registerInteractionFav();
+  };
+
+  const registerInteractionFav = () => {
+    const user_id = localStorage.getItem("user_id");
+    const payload = {
+      user_id: user_id,
+      product_id: id,
+      interaction_type: "favorite",
+    };
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/history`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la solicitud");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.message);
+      })
+      .catch((error) => console.error(error));
   };
 
   const handleChildClick = (event) => {
@@ -47,6 +78,9 @@ function ItemCard({ ...props }) {
   return (
     <article className={styles}>
       <Link to={`/${id}`} className="relative">
+        <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-foreground top-2 right-1/4 ">
+          {store_name}
+        </p>
         <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-primary top-2 right-2">
           {category}
         </p>
