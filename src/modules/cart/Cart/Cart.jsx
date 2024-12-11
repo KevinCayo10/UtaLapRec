@@ -42,7 +42,7 @@ function Cart() {
           icon={<CrossIcon />}
           onClick={() => {
             clearCart();
-            toast.success(<p>Lista de deseo eliminado.</p>);
+            toast.success(<p>Lista de favoritos eliminado.</p>);
           }}
         >
           Limpiar carrito

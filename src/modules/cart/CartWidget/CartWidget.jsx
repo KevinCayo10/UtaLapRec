@@ -40,7 +40,6 @@ function CartWidget({ ...props }) {
       return [];
     };
     setProductCart(getCartItems());
-    console.log("PRODUCT : " + productCart);
   }, [quantity]);
 
   return (
@@ -48,7 +47,7 @@ function CartWidget({ ...props }) {
       {/* Badge */}
       <label tabIndex={0} className="btn btn-ghost btn-circle">
         <div className="indicator">
-          <WishIcon className="text-red-500" />
+          <WishIcon className="text-yellow-500" />
           {quantity > 0 && <Badge>{quantity}</Badge>}
         </div>
       </label>
@@ -56,47 +55,42 @@ function CartWidget({ ...props }) {
       {/* Cart badge menu */}
       <div
         tabIndex={0}
-        className="mt-3 shadow card card-compact dropdown-content w-60 bg-base-100"
+        className="mt-3 shadow card card-compact dropdown-content w-64 bg-base-100 lg:dropdown-bottom dropdown-top absolute lg:relative transform lg:transform-none bottom-full sm:top-auto sm:bottom-auto"
       >
         <div className="text-center card-body">
           {quantity === 0 ? (
             <span className="text-lg font-bold text-gray-600">
-              Lista de deseo vacío
+              Lista de favoritos vacío
             </span>
           ) : (
             <>
-              {/* <span className="text-lg font-bold">
-                {pluralize(quantity, "artículo")}
-              </span>
-              <Price
-                className="text-lg text-info"
-                price={cartTotalAmount()}
-                currency="ARS"
-              /> */}
-              {productCart.map((item, index) => {
-                return (
-                  <div
-                    key={item.id}
-                    className="flex items-center space-x-4 p-4 bg-white shadow-md rounded-lg"
-                  >
-                    <ProductImage
-                      src={item.urlImg[0]}
-                      id={item.id}
-                      alt={item.title}
-                      className={"h-10"}
-                    />
+              <div className="max-h-72 overflow-y-auto">
+                {productCart.map((item, index) => {
+                  return (
+                    <Link
+                      key={item.id}
+                      className="flex items-center space-x-4 p-4 bg-white shadow-md rounded-lg"
+                      to={`/${item.id}`}
+                    >
+                      <ProductImage
+                        src={item.urlImg[0]}
+                        id={item.id}
+                        alt={item.title}
+                        className={"h-8 sm:h-10"}
+                      />
 
-                    <div className="flex flex-col ">
-                      <h3 className="font-normal text-sm text-start truncate w-32 text-gray-600">
-                        {item.title.slice(0, 20)}
-                      </h3>
-                      <span className="text-gray-500 text-start">
-                        {item.price}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+                      <div className="flex flex-col">
+                        <h3 className="font-normal text-sm text-start truncate w-32 text-gray-600">
+                          {item.title.slice(0, 50)}
+                        </h3>
+                        <span className="text-gray-500 text-start">
+                          {item.price}
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
 
               <div className="card-actions">
                 <IconButton
@@ -104,17 +98,11 @@ function CartWidget({ ...props }) {
                   icon={<CrossIcon />}
                   onClick={() => {
                     clearCart();
-                    toast.success(<p>Lista de deseo eliminado.</p>);
+                    toast.success(<p>Lista de favoritos eliminado.</p>);
                   }}
                 >
                   Limpiar carrito
                 </IconButton>
-                {/* <IconButton
-                  className="btn-primary btn-sm sm:btn-md btn-block"
-                  icon={<CartIcon />}
-                >
-                  <Link to="/cart">Ver carrito</Link>
-                </IconButton> */}
               </div>
             </>
           )}

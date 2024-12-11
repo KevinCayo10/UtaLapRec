@@ -33,7 +33,6 @@ function ItemCard({ ...props }) {
   );
 
   useEffect(() => {
-    console.log("ITEM CARD");
     const wishList = JSON.parse(localStorage.getItem("tuportatil-cart")) || []; // Si no existe, inicializa como array vacío
     const exists = wishList.some((item) => item.id === id);
     setIsInWishList(exists); // Si existe, se establece en true; de lo contrario, en false
@@ -79,7 +78,7 @@ function ItemCard({ ...props }) {
     <article className={styles}>
       <Link to={`/${id}`} className="relative">
         <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-foreground top-2 right-1/4 ">
-          {store_name}
+          {store_name.substring(0, 20)}
         </p>
         <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-primary top-2 right-2">
           {category}
@@ -96,7 +95,7 @@ function ItemCard({ ...props }) {
         </div>
         {/* Aquí colocamos el QuickAddToCart con un z-index alto */}
         <QuickAddToCart
-          className=" z-50 absolute top-0 left-0"
+          className=" p-1 "
           inWishList={isInWishList}
           onClick={(event) => {
             // Detiene la propagación del clic para evitar la redirección
@@ -105,8 +104,8 @@ function ItemCard({ ...props }) {
             addToWishList();
           }}
         />
-        <div className="p-2 pt-0 card-body">
-          <ItemPreview className="" id={id} images={urlImg} alt={title} />
+        <div className="p-2 pt-0 card-body ">
+          <ItemPreview id={id} images={urlImg} alt={title} />
           <h3>
             <Balancer ratio={0.5}>
               <TextWithLineBreaks onlyBreakFirstLine styled>

@@ -60,7 +60,7 @@ function ItemDetailContainer() {
 
   useEffect(() => {
     getProductDetail();
-  }, []);
+  }, [productId]);
 
   return (
     <>

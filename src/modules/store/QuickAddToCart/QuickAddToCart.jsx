@@ -8,18 +8,24 @@ function QuickAddToCart({ inWishList, ...props }) {
   return (
     <Tooltip
       className={clsx("tooltip-primary", inWishList && "tooltip-secondary")}
-      text={inWishList ? "Ya en lista de deseos" : "Agregar a lista de deseo"}
+      text={
+        inWishList ? "Ya en lista de favoritos" : "Agregar a lista de favoritos"
+      }
     >
       <button
         tabIndex={0}
-        className={clsx("btn", props.className, inWishList && "btn-disabled")}
+        className={clsx(
+          "btn rounded-full hover:bg-slate-100 ",
+          props.className,
+          inWishList && "btn-disabled"
+        )}
         {...props}
         disabled={inWishList}
       >
         {inWishList ? (
-          <WishIcon className="text-red-500" />
+          <WishIcon className="text-yellow-500" />
         ) : (
-          <HeartIcon className="text-red-500 " />
+          <HeartIcon className="text-yellow-500 " />
         )}
       </button>
     </Tooltip>

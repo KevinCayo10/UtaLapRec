@@ -20,6 +20,7 @@ function ItemListContainer({ ...props }) {
     priceMax: 200,
   });
   const { categoryId } = useParams();
+  const [hasRegistered, setHasRegistered] = useState(false);
 
   const getProduct = () => {
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/products`)
@@ -30,6 +31,7 @@ function ItemListContainer({ ...props }) {
         return response.json();
       })
       .then((data) => {
+        console.log("VECES");
         setProducts(data.data);
         setLoading(false);
       })
@@ -37,6 +39,7 @@ function ItemListContainer({ ...props }) {
   };
 
   useEffect(() => {
+    console.log("ITEM");
     getProduct(); // Si no hay un categoryId, obtiene todos los productos
   }, []);
 
@@ -66,6 +69,14 @@ function ItemListContainer({ ...props }) {
           (product) =>
             product.price >= filters.priceMin &&
             product.price <= filters.priceMax
+        );
+      }
+
+      // Filtrar por título
+      if (filters.searchTitle) {
+        const searchTerm = filters.searchTitle.toLowerCase();
+        filtered = filtered.filter((product) =>
+          product.title.toLowerCase().includes(searchTerm)
         );
       }
 
@@ -100,12 +111,10 @@ function ItemListContainer({ ...props }) {
         <span className="loading loading-dots loading-xs">Cargando...</span>
       ) : (
         <>
-          <img
-            class="object-cover rounded-xl"
-            src="https://www.tekboss.com.ec/wp-content/uploads/2024/02/fe00531-600x600.jpg"
-            alt="Laptop HP Envy x360 15-FE0053"
-          ></img>
-          <Filter onFilterChange={handleFilterChange} />
+          <div className="flex flex-col lg:flex-row   items-start sm:items-center w-full  px-4 sm:justify-between justify-start">
+            <Filter onFilterChange={handleFilterChange} />
+            <p className=" mb-8  ">Cantidad : {filteredProducts.length}</p>
+          </div>
           <ItemList products={currentProducts} />
           <Paginator
             totalPages={totalPages}
