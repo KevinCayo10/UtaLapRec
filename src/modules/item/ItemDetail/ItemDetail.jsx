@@ -100,11 +100,13 @@ function ItemDetail({ ...props }) {
             alt={title}
             className="flex items-center justify-center w-full h-auto  "
           />
-          <ProductImage
-            src={urlImg[1]}
-            alt={title}
-            className={clsx(styleHover, props.className)}
-          />
+          {urlImg[1] && (
+            <ProductImage
+              src={urlImg[1]}
+              alt={title}
+              className={clsx(styleHover, props.className)}
+            />
+          )}
         </div>
       </header>
 
