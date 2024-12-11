@@ -15,30 +15,14 @@ import ListIcon from "@/modules/ui/Icons/ListIcon";
 import { Link } from "react-router-dom";
 
 function Header() {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/categories`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error en la solicitud");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCategories(data.categories);
-      })
-      .catch((error) => console.error(error));
-  }, []);
-
   return (
     <>
       <TopBanner />
       <div
         className="flex-col bg-transparent  gap-2
-                  sm:flex-row sm:justify-between navbar bg-base-100 "
+                  sm:flex-row sm:justify-between navbar bg-base-100"
       >
-        <div className="navbar-start">
+        <div className="navbar-end sm:navbar-start flex justify-between  w-full">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
@@ -80,26 +64,28 @@ function Header() {
               </li>
             </ul>
           </div>
-          <SiteLogo />
+          <div>
+            <SiteLogo />
+          </div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
               <Link to="/">
-                <HomeIcon />
+                <HomeIcon className="text-primary" />
                 Inicio
               </Link>
             </li>
 
             <li>
               <Link to="/store">
-                <StoreIcon />
+                <StoreIcon className="text-primary" />
                 Tienda
               </Link>
             </li>
             <li>
               <Link to="/recommender">
-                <ListIcon />
+                <ListIcon className="text-primary" />
                 Recomendaciones
               </Link>
             </li>
