@@ -37,7 +37,7 @@ export default function Paginator({ totalPages, currentPage, onPageChange }) {
     <div className="join">
       {/* Botón para retroceder */}
       <button
-        className={`join-item btn rounded-r-none ${currentPage === 1 ? "btn-disabled" : ""}`}
+        className={`join-item btn  rounded-r-none ${currentPage === 1 ? "btn-disabled" : ""}`}
         onClick={handlePrevious}
         disabled={currentPage === 1}
       >
@@ -48,7 +48,7 @@ export default function Paginator({ totalPages, currentPage, onPageChange }) {
       {pages.map((page) => (
         <button
           key={`page-${page}`}
-          className={`join-item btn rounded-none ${
+          className={`join-item btn  rounded-none ${
             page === currentPage ? "btn-active" : ""
           }`}
           onClick={() => onPageChange(page)}

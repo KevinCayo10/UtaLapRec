@@ -22,7 +22,20 @@ import ItemDetailContainer from "./modules/item/ItemDetailContainer";
 import RecommenderContainer from "./modules/store/RecommenderContainer/RecommenderContainer";
 import HomeContainer from "./modules/home/HomeContainer";
 
+// Importa la librería uuid para generar un UUID único
+import { v4 as uuidv4 } from "uuid";
+
 function App() {
+  // Genera el user_id si no existe en localStorage
+  const userId = localStorage.getItem("user_id") || uuidv4();
+
+  // Si no existe, guardamos el user_id en localStorage
+  if (!localStorage.getItem("user_id")) {
+    localStorage.setItem("user_id", userId);
+  }
+
+  console.log("User ID:", userId); // Puedes usar este ID en otros componentes
+
   return (
     <div>
       <Toaster
@@ -46,7 +59,6 @@ function App() {
                 <Route path="/" element={<HomeContainer />} />
                 <Route path="/store" element={<ItemListContainer />} />
                 <Route path="/recommender" element={<RecommenderContainer />} />
-
                 <Route
                   path="/category/:categoryId"
                   element={<ItemListContainer />}
@@ -62,18 +74,6 @@ function App() {
           </CartProvider>
         </BrowserRouter>
         {/* <Footer /> */}
-        {/* TEST ItemListCointainer */}
-        {/*       <ItemListContainer>
-          <Greeting />
-        </ItemListContainer> */}
-
-        {/* TEST ItemDetailContainer - para probar datos de productos */}
-        {/* <ItemDetailContainer productId='alienware-m15-r7-240hz-core-i7-12700h-16gb-512gb-rtx-3070ti' /> */}
-        {/* <ItemDetailContainer productId='msi-pulse-gl76-17-3-144hz-i7-12th-gen-16gb-512gb-rtx-3070-8gb' /> */}
-        {/* <ItemDetailContainer productId='lenovo-ideapad-gaming-3-120hz-ryzen-5-8gb-256gb-rtx-3050ti' /> */}
-        {/* <ItemDetailContainer productId='asus-vivobook-pro-14-oled-core-i5-11300h-8gb-256gb' /> */}
-        {/* <ItemDetailContainer productId='asus-zenbook-flip-2en1-ryzen-7-5700u-8gb-256gb-geforce-mx450' /> */}
-        {/* <ItemDetailContainer productId='lenovo-ideapad-3-14-ryzen-5-8gb-256-gb-ssd' /> */}
       </div>
     </div>
   );
