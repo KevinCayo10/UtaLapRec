@@ -23,10 +23,10 @@ function RecommenderContainer({ ...props }) {
     }
   };
 
-  const fethProductRecommender = () => {
+  const fethProductRecommenderContent = () => {
     console.log("FETCH PRODUCT ", productsIds);
 
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/recommender`, {
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/recommender-content`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,14 +46,39 @@ function RecommenderContainer({ ...props }) {
       .catch((error) => console.error(error));
   };
 
+  const fethProductRecommenderUser = () => {
+    const user_id = localStorage.getItem("user_id");
+    if (user_id) {
+      try {
+        const parsedUserId = JSON.parse(user_id); // Solo intenta parsear si el valor es un JSON válido
+      } catch (error) {
+        console.error("Error parsing user_id from localStorage", error);
+      }
+    }
+    fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}api/recommender-user/${user_id}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la solicitud");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setProductsRecommender(data.data);
+        setLoading(false);
+      })
+      .catch((error) => console.error(error));
+  };
+
   useEffect(() => {
     getProductWishes();
   }, []); // Esto solo se ejecuta una vez al inicio
 
   useEffect(() => {
-    if (productsIds.length > 0) {
-      fethProductRecommender();
-    }
+    fethProductRecommenderUser();
+    // fethProductRecommenderContent();
   }, [productsIds]);
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
@@ -72,7 +97,7 @@ function RecommenderContainer({ ...props }) {
     <div className="container flex flex-col items-center gap-4 mx-auto">
       {props.children}
       {loading ? (
-        <Loading />
+        <span className="loading loading-dots loading-xs"></span>
       ) : (
         <>
           <ItemList products={currentProducts} />
