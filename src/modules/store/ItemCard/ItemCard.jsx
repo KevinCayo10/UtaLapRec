@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 
 function ItemCard({ ...props }) {
   const [isInWishList, setIsInWishList] = useState(false);
+  const [errorOcurred, setErrorOcurred] = useState(false);
   const {
     id,
     title,
@@ -74,11 +75,15 @@ function ItemCard({ ...props }) {
     event.preventDefault(); // Evita la acción de redirección
   };
 
+  const handleImageError = () => {
+    setErrorOcurred(true);
+  };
+
   return (
     <article className={styles}>
       <Link to={`/${id}`} className="relative">
         <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-foreground top-2 right-1/4 ">
-          {store_name.substring(0, 20)}
+          {store_name.substring(0, 15)}
         </p>
         <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-primary top-2 right-2">
           {category}
@@ -105,7 +110,12 @@ function ItemCard({ ...props }) {
           }}
         />
         <div className="p-2 pt-0 card-body ">
-          <ItemPreview id={id} images={urlImg} alt={title} />
+          <ItemPreview
+            id={id}
+            images={urlImg}
+            alt={title}
+            handleCaptureError={handleImageError}
+          />
           <h3>
             <Balancer ratio={0.5}>
               <TextWithLineBreaks onlyBreakFirstLine styled>

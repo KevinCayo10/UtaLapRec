@@ -6,9 +6,9 @@ import TextWithLineBreaks from "../TextWithLineBreaks/TextWithLineBreaks";
 
 function ProductSpecs({ features }) {
   return (
-    <section className="flex flex-col items-center gap-4">
+    <section className="flex flex-col items-center gap-4  w-3/4">
       <h2 className="text-2xl card-title">Especificaciones</h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4  sm:grid-cols-2 lg:grid-cols-e xl:grid-cols-5  w-full">
         {Object.entries(features).map(([key, value]) => {
           // Validar si el valor es válido
           if (
@@ -23,7 +23,7 @@ function ProductSpecs({ features }) {
           return (
             <div
               key={key}
-              className="relative flex flex-row gap-2 p-6 pt-16 card bg-brand/10"
+              className="relative flex flex-row gap-2 p-5 pt-16 card bg-brand/10   "
             >
               <div className="absolute w-16 rounded-lg top-1 right-1 aspect-square">
                 <img

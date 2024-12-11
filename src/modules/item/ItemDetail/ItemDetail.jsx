@@ -111,7 +111,7 @@ function ItemDetail({ ...props }) {
       </header>
 
       {/* Product Detail */}
-      <main className="flex flex-col items-center gap-10 mx-4 card bg-base-100">
+      <main className="flex flex-col items-center gap-10 mx-4 card bg-base-100 ">
         {/* {banner && banner.length > 0 && (
           <ProductImage
             id={id}
@@ -123,10 +123,18 @@ function ItemDetail({ ...props }) {
         {characteristics && <ProductSpecs features={characteristics} />}
       </main>
       <section className="">
-        <h2 className="text-2xl card-title my-4">Productos similares</h2>
-        <div className="grid justify-center grid-cols-1 gap-4 sm:grid-cols-4">
+        <h2 className="text-2xl card-title my-4 text-primary">
+          Productos similares
+        </h2>
+        <div className="grid justify-center  grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
           {products.map((product) => {
-            return <ItemCard key={product.id} {...product} />;
+            return (
+              <ItemCard
+                key={product.id}
+                {...product}
+                className="border border-blue-200"
+              />
+            );
           })}
         </div>
       </section>
