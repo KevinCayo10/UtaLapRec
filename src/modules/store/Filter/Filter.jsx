@@ -1,52 +1,80 @@
 import React, { useState, useEffect } from "react";
 
 function Filter({ onFilterChange }) {
-  const brands = [
-    "Acer",
-    "Alienware",
-    "Asus",
-    "Dell",
-    "HP",
-    "Lenovo",
-    "MSI",
-    "Otra",
-  ];
-  const categories = ["Batería", "Laptop", "Otra"];
+  // const brands = [
+  //   "Acer",
+  //   "Alienware",
+  //   "Asus",
+  //   "Dell",
+  //   "HP",
+  //   "Lenovo",
+  //   "MSI",
+  //   "Apple",
+  //   "Otra",
+  // ];
+  // const categories = ["Batería", "Laptop", "Otra"];
 
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [priceMin, setPriceMin] = useState(100);
+  const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(2000);
+  const [searchTitle, setSearchTitle] = useState("");
+
+  const getFilterValues = () => {
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/filter`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la solicitud");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setBrands(data.brands);
+        setCategories(data.categories);
+        setPriceMax(data.price_max);
+      })
+      .catch((error) => console.error(error));
+  };
 
   // Función para manejar cambios en los filtros
   const handleFilterChange = () => {
-    // Imprimir los valores del estado aquí para depurar
     console.log("Filtros actuales:", {
       selectedBrand,
       selectedCategory,
       priceMin,
       priceMax,
+      searchTitle,
     });
 
-    const newFilters = { selectedBrand, selectedCategory, priceMin, priceMax };
-    onFilterChange(newFilters); // Llamamos a la función recibida como prop
+    const newFilters = {
+      selectedBrand,
+      selectedCategory,
+      priceMin,
+      priceMax,
+      searchTitle,
+    };
+    onFilterChange(newFilters);
   };
 
   useEffect(() => {
-    // Si los filtros ya están establecidos, se ejecuta la función al principio
+    getFilterValues();
+  }, []);
+  useEffect(() => {
     handleFilterChange();
-  }, [selectedBrand, selectedCategory, priceMin, priceMax]); // Los filtros se actualizan cada vez que cambia el estado
+  }, [selectedBrand, selectedCategory, priceMin, priceMax, searchTitle]);
 
   return (
-    <div className="flex flex-col  sm:flex-row gap-4 mb-8 ">
+    <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:flex-wrap">
       {/* Filtro de Marca */}
-      <div className="flex items-center">
-        <label className="mr-2">Marca:</label>
+      <div className="flex flex-col sm:flex-row sm:items-center w-full sm:w-auto">
+        <label className="mb-1 sm:mb-0 sm:mr-2 font-medium">Marca:</label>
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full sm:w-auto"
           value={selectedBrand}
           onChange={(e) => {
-            setSelectedBrand(e.target.value); // Cambiar el estado
+            setSelectedBrand(e.target.value);
           }}
         >
           <option value="">Todas</option>
@@ -59,13 +87,13 @@ function Filter({ onFilterChange }) {
       </div>
 
       {/* Filtro de Categoría */}
-      <div className="flex items-center">
-        <label className="mr-2">Categoría:</label>
+      <div className="flex flex-col sm:flex-row sm:items-center w-full sm:w-auto">
+        <label className="mb-1 sm:mb-0 sm:mr-2 font-medium">Categoría:</label>
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full sm:w-auto"
           value={selectedCategory}
           onChange={(e) => {
-            setSelectedCategory(e.target.value); // Cambiar el estado
+            setSelectedCategory(e.target.value);
           }}
         >
           <option value="">Todas</option>
@@ -78,26 +106,40 @@ function Filter({ onFilterChange }) {
       </div>
 
       {/* Filtro de Precio */}
-      <div className="flex items-center">
-        <label className="mr-2">Precio:</label>
+      <div className="flex flex-col sm:flex-row sm:items-center w-full sm:w-auto">
+        <label className="mb-1 sm:mb-0 sm:mr-2 font-medium">Precio:</label>
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <input
+            type="number"
+            className="input input-bordered w-full sm:w-24"
+            value={priceMin}
+            onChange={(e) => {
+              setPriceMin(e.target.value);
+            }}
+            placeholder="Min"
+          />
+          <span className="hidden sm:inline-block">-</span>
+          <input
+            type="number"
+            className="input input-bordered w-full sm:w-24"
+            value={priceMax}
+            onChange={(e) => {
+              setPriceMax(e.target.value);
+            }}
+            placeholder="Max"
+          />
+        </div>
+      </div>
+
+      {/* Filtro de Búsqueda */}
+      <div className="flex flex-col sm:flex-row sm:items-center w-full sm:w-auto">
+        <label className="mb-1 sm:mb-0 sm:mr-2 font-medium">Buscar:</label>
         <input
-          type="number"
-          className="input input-bordered"
-          value={priceMin}
-          onChange={(e) => {
-            setPriceMin(e.target.value); // Cambiar el estado
-          }}
-          placeholder="Min"
-        />
-        <span className="mx-2">-</span>
-        <input
-          type="number"
-          className="input input-bordered"
-          value={priceMax}
-          onChange={(e) => {
-            setPriceMax(e.target.value); // Cambiar el estado
-          }}
-          placeholder="Max"
+          type="text"
+          className="input input-bordered w-full sm:w-auto"
+          placeholder="Buscar productos..."
+          value={searchTitle}
+          onChange={(e) => setSearchTitle(e.target.value)}
         />
       </div>
     </div>
