@@ -41,6 +41,7 @@ function RecommenderContent({ ...props }) {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         setProductsRecommender(data.data);
         setLoading(false);
       })
