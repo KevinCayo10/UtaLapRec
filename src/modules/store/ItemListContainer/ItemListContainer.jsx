@@ -117,7 +117,9 @@ function ItemListContainer({ ...props }) {
         <>
           <div className="flex flex-col lg:flex-row   items-start sm:items-center w-full  px-4 sm:justify-between justify-start">
             <Filter onFilterChange={handleFilterChange} />
-            <p className=" mb-8  ">Cantidad : {filteredProducts.length}</p>
+            <p className=" p-4  mb-8 badge badge-primary ">
+              {filteredProducts.length}
+            </p>
           </div>
           <ItemList products={currentProducts} />
           <Paginator

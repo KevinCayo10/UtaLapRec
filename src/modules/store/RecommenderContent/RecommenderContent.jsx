@@ -4,35 +4,32 @@ import Paginator from "../Paginator";
 import { useState } from "react";
 import { useEffect } from "react";
 import Loading from "@/modules/layout/Loading";
+import { useContext } from "react";
+import { CartContext } from "@/context/CartContext";
 
-function RecommenderContent({ ...props }) {
+function RecommenderContent({ onDataLengthChange }) {
   const [productsIds, setProductsIds] = useState([]);
   const [productRecommender, setProductsRecommender] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Número de productos por página
+  const { addItemToCart } = useContext(CartContext);
 
-  const getProductWishes = () => {
-    console.log("GET PRODUCT");
-    const products_wish =
-      JSON.parse(localStorage.getItem("tuportatil-cart")) || [];
-    console.log("PRODUCT WISHES : ", products_wish);
-    if (products_wish) {
-      const products_ids = products_wish.map((product) => product.id);
-      setProductsIds(products_ids);
-      console.log("PRODUCTS ID: " + products_ids);
-    }
-  };
+  const getProductWishes = () => {};
 
   const fethProductRecommenderContent = () => {
-    console.log("FETCH PRODUCT ", productsIds);
-
+    const products_wish =
+      JSON.parse(localStorage.getItem("tuportatil-cart")) || [];
+    if (!products_wish) {
+      return;
+    }
+    const products_ids = products_wish.map((product) => product.id);
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/recommender-content`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ product_ids: productsIds }),
+      body: JSON.stringify({ product_ids: products_ids }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -41,21 +38,23 @@ function RecommenderContent({ ...props }) {
         return response.json();
       })
       .then((data) => {
+        console.log("RECO CONTENT : " + data);
         if (data.data != []) {
           setProductsRecommender(data.data);
           setLoading(false);
+          onDataLengthChange(data.data.length || 0);
         }
       })
       .catch((error) => console.error(error));
   };
 
   useEffect(() => {
-    getProductWishes();
+    fethProductRecommenderContent();
   }, []); // Esto solo se ejecuta una vez al inicio
 
-  useEffect(() => {
-    fethProductRecommenderContent();
-  }, [productsIds]);
+  // useEffect(() => {
+  //   fethProductRecommenderContent();
+  // }, [productsIds]);
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
   const currentProducts = productRecommender.slice(

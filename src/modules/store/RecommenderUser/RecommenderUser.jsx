@@ -5,7 +5,7 @@ import ItemList from "../ItemList";
 import Paginator from "../Paginator";
 import Loading from "@/modules/layout/Loading";
 
-function RecommenderUser() {
+function RecommenderUser({ onDataLengthChange }) {
   const [productsIds, setProductsIds] = useState([]);
   const [productRecommender, setProductsRecommender] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,8 +31,11 @@ function RecommenderUser() {
         return response.json();
       })
       .then((data) => {
-        setProductsRecommender(data.data);
-        setLoading(false);
+        if (data.data != []) {
+          setProductsRecommender(data.data);
+          setLoading(false);
+          onDataLengthChange(data.data.length || 0);
+        }
       })
       .catch((error) => console.error(error));
   };

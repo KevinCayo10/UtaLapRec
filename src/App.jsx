@@ -24,6 +24,7 @@ import HomeContainer from "./modules/home/HomeContainer";
 
 // Importa la librería uuid para generar un UUID único
 import { v4 as uuidv4 } from "uuid";
+import Timer from "./modules/ui/Timer";
 
 function App() {
   // Genera el user_id si no existe en localStorage
@@ -54,6 +55,7 @@ function App() {
         <BrowserRouter>
           <CartProvider>
             <Header />
+            {/* <Timer /> */}
             <div className="h-screen">
               <Routes>
                 <Route path="/" element={<HomeContainer />} />
