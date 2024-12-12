@@ -25,6 +25,7 @@ function ItemCard({ ...props }) {
     availability,
     store_name,
     link,
+    flag,
   } = props;
   const { addItemToCart } = useContext(CartContext);
   const styles = clsx(
@@ -102,7 +103,7 @@ function ItemCard({ ...props }) {
             </p>
           </div>
         </div>
-        <div
+        {/* <div
           className="absolute z-10 hidden group-hover:block top-56 left-4"
           onClick={handleChildClick}
         >
@@ -111,7 +112,7 @@ function ItemCard({ ...props }) {
           ) : (
             <p className="z-40 text-xs font-bold uppercase badge">Sin stock</p>
           )}
-        </div>
+        </div> */}
         {/* Aquí colocamos el QuickAddToCart con un z-index alto */}
 
         <div className="p-2 pt-0 card-body ">
@@ -121,6 +122,22 @@ function ItemCard({ ...props }) {
             alt={title}
             handleCaptureError={handleImageError}
           />
+          <div>
+            {flag && (
+              <h5 className="text-xs font-bold uppercase text-background badge badge-secondary mx-1">
+                {flag}
+              </h5>
+            )}
+            {stock > 0 && availability ? (
+              <p className="text-xs font-bold uppercase badge mx-1">
+                Disponible
+              </p>
+            ) : (
+              <p className="text-xs font-bold uppercase badge mx-1">
+                Sin stock
+              </p>
+            )}
+          </div>
           <h3>
             <Balancer ratio={0.5}>
               <TextWithLineBreaks onlyBreakFirstLine styled>
