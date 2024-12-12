@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import ItemList from "../ItemList";
 import Paginator from "../Paginator";
+import Loading from "@/modules/layout/Loading";
 
 function RecommenderUser() {
   const [productsIds, setProductsIds] = useState([]);
@@ -58,7 +59,7 @@ function RecommenderUser() {
     <div className="container flex flex-col items-center gap-4 mx-auto">
       {/* {props.children} */}
       {loading ? (
-        <span className="loading loading-dots loading-xs"></span>
+        <Loading />
       ) : (
         <>
           <ItemList products={currentProducts} />

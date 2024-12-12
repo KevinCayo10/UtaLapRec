@@ -29,7 +29,7 @@ function ProductTags({ brand, category, store_name, link }) {
       <a
         href={link}
         target="__blank"
-        className="gap-2 p-4  badge badge-xl badge-outline badge-primary"
+        className="gap-2 p-4  badge badge-xl badge-outline badge-primary hover:border-blue-300"
       >
         <LinkIcon />
         {store_name.substring(0, 20)}

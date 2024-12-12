@@ -82,12 +82,26 @@ function ItemCard({ ...props }) {
   return (
     <article className={styles}>
       <Link to={`/${id}`} className="relative">
-        <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-foreground top-2 right-1/4 ">
-          {store_name.substring(0, 15)}
-        </p>
-        <p className="absolute z-40 text-xs font-bold uppercase text-background badge badge-primary top-2 right-2">
-          {category}
-        </p>
+        <div className="flex items-center justify-between">
+          <QuickAddToCart
+            className=" p-1 "
+            inWishList={isInWishList}
+            onClick={(event) => {
+              // Detiene la propagación del clic para evitar la redirección
+              handleChildClick(event);
+              addItemToCart({ id, title, urlImg, price, quantity: 1 }, stock);
+              addToWishList();
+            }}
+          />
+          <div className=" flex gap-1">
+            <p className=" text-xs font-bold uppercase text-background badge badge-foreground top-2 right-1/4 ">
+              {store_name.substring(0, 15)}
+            </p>
+            <p className=" text-xs font-bold uppercase text-background badge badge-primary top-2 right-2">
+              {category}
+            </p>
+          </div>
+        </div>
         <div
           className="absolute z-10 hidden group-hover:block top-56 left-4"
           onClick={handleChildClick}
@@ -99,16 +113,7 @@ function ItemCard({ ...props }) {
           )}
         </div>
         {/* Aquí colocamos el QuickAddToCart con un z-index alto */}
-        <QuickAddToCart
-          className=" p-1 "
-          inWishList={isInWishList}
-          onClick={(event) => {
-            // Detiene la propagación del clic para evitar la redirección
-            handleChildClick(event);
-            addItemToCart({ id, title, urlImg, price, quantity: 1 }, stock);
-            addToWishList();
-          }}
-        />
+
         <div className="p-2 pt-0 card-body ">
           <ItemPreview
             id={id}

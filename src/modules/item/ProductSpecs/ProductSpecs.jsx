@@ -5,6 +5,7 @@ import Balancer from "react-wrap-balancer";
 import TextWithLineBreaks from "../TextWithLineBreaks/TextWithLineBreaks";
 
 function ProductSpecs({ features }) {
+  console.log(features);
   return (
     <section className="flex flex-col items-center gap-4  w-3/4">
       <h2 className="text-2xl card-title">Especificaciones</h2>
@@ -13,6 +14,7 @@ function ProductSpecs({ features }) {
           // Validar si el valor es válido
           if (
             !value ||
+            value.text === " " ||
             value.text === "" ||
             value.text === "Otra" ||
             value.text == null

@@ -16,6 +16,7 @@ function ItemListContainer({ ...props }) {
   const [filters, setFilters] = useState({
     selectedBrand: "",
     selectedCategory: "",
+    selectedStoreName: "",
     priceMin: 100,
     priceMax: 200,
   });
@@ -31,7 +32,6 @@ function ItemListContainer({ ...props }) {
         return response.json();
       })
       .then((data) => {
-        console.log("VECES");
         setProducts(data.data);
         setLoading(false);
       })
@@ -39,17 +39,16 @@ function ItemListContainer({ ...props }) {
   };
 
   useEffect(() => {
-    console.log("ITEM");
     getProduct(); // Si no hay un categoryId, obtiene todos los productos
   }, []);
 
   // Filtrar productos según los filtros seleccionados
   useEffect(() => {
     const filterProducts = () => {
+      console.log(filters);
       let filtered = [...products];
       // Filtrar por marca
       if (filters.selectedBrand) {
-        console.log("ENTRO brand");
         filtered = filtered.filter(
           (product) => product.brand === filters.selectedBrand
         );
@@ -57,14 +56,19 @@ function ItemListContainer({ ...props }) {
 
       // Filtrar por categoría
       if (filters.selectedCategory) {
-        console.log("ENTRO category");
         filtered = filtered.filter(
           (product) => product.category === filters.selectedCategory
         );
       }
 
-      // Filtrar por precio
+      // Filtrar por store name
+      if (filters.selectedStoreName) {
+        filtered = filtered.filter(
+          (product) => product.store_name === filters.selectedStoreName
+        );
+      }
       if (filters.priceMin || filters.priceMax) {
+        // Filtrar por precio
         filtered = filtered.filter(
           (product) =>
             product.price >= filters.priceMin &&
@@ -108,7 +112,7 @@ function ItemListContainer({ ...props }) {
     <div className="container flex flex-col items-center gap-4 mx-auto">
       {props.children}
       {loading ? (
-        <span className="loading loading-dots loading-xs">Cargando...</span>
+        <Loading />
       ) : (
         <>
           <div className="flex flex-col lg:flex-row   items-start sm:items-center w-full  px-4 sm:justify-between justify-start">
@@ -121,6 +125,7 @@ function ItemListContainer({ ...props }) {
             currentPage={currentPage}
             onPageChange={handlePageChange}
           />
+          <span className="loading loading-dots loading-sm"></span>
         </>
       )}
     </div>

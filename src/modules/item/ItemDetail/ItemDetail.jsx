@@ -12,6 +12,7 @@ import ProductSpecs from "../ProductSpecs";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import ItemCard from "@/modules/store/ItemCard";
+import Loading from "@/modules/layout/Loading";
 
 function ItemDetail({ ...props }) {
   const {
@@ -29,6 +30,7 @@ function ItemDetail({ ...props }) {
     link,
   } = { ...props };
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { addItemToCart } = useContext(CartContext);
   const initialCount = 1;
 
@@ -56,8 +58,8 @@ function ItemDetail({ ...props }) {
         return response.json();
       })
       .then((data) => {
-        console.log("VECES");
         setProducts(data.data);
+        setLoading(false);
       })
       .catch((error) => console.error(error));
   };
@@ -124,19 +126,25 @@ function ItemDetail({ ...props }) {
       </main>
       <section className="">
         <h2 className="text-2xl card-title my-4 text-primary">
-          Productos similares
+          Recomendado para ti
         </h2>
-        <div className="grid justify-center  grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-          {products.map((product) => {
-            return (
-              <ItemCard
-                key={product.id}
-                {...product}
-                className="border border-blue-200"
-              />
-            );
-          })}
-        </div>
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <Loading />
+          </div>
+        ) : (
+          <div className="grid justify-center  grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            {products.map((product) => {
+              return (
+                <ItemCard
+                  key={product.id}
+                  {...product}
+                  className="border border-blue-200"
+                />
+              );
+            })}
+          </div>
+        )}
       </section>
     </article>
   );
