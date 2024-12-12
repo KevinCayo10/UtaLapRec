@@ -31,7 +31,6 @@ function RecommenderUser() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setProductsRecommender(data.data);
         setLoading(false);
       })
