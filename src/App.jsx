@@ -75,7 +75,6 @@ function App() {
             </div>
           </CartProvider>
         </BrowserRouter>
-        {/* <Footer /> */}
       </div>
     </div>
   );

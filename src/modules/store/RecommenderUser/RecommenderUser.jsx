@@ -14,13 +14,14 @@ function RecommenderUser({ onDataLengthChange }) {
 
   const fethProductRecommenderUser = () => {
     const user_id = localStorage.getItem("user_id");
-    if (user_id) {
-      try {
-        const parsedUserId = JSON.parse(user_id); // Solo intenta parsear si el valor es un JSON válido
-      } catch (error) {
-        console.error("Error parsing user_id from localStorage", error);
-      }
-    }
+    console.log("USER ID: " + user_id);
+    // if (user_id) {
+    //   try {
+    //     const parsedUserId = JSON.parse(user_id); // Solo intenta parsear si el valor es un JSON válido
+    //   } catch (error) {
+    //     console.error("Error parsing user_id from localStorage", error);
+    //   }
+    // }
     fetch(
       `${import.meta.env.VITE_REACT_APP_API_URL}api/recommender-user/${user_id}`
     )
@@ -31,7 +32,9 @@ function RecommenderUser({ onDataLengthChange }) {
         return response.json();
       })
       .then((data) => {
-        if (data.data != []) {
+        console.log(data);
+        if (data.data.length > 0) {
+          console.log("ENTRO POR QUE SI HAY");
           setProductsRecommender(data.data);
           setLoading(false);
           onDataLengthChange(data.data.length || 0);

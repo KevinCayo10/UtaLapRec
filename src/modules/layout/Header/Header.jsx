@@ -20,9 +20,9 @@ function Header() {
       <TopBanner />
       <div
         className="flex-col bg-transparent  gap-2
-                  sm:flex-row sm:justify-between navbar bg-base-100"
+                  sm:flex-row sm:justify-between navbar bg-base-100  "
       >
-        <div className="navbar-end sm:navbar-start flex justify-between  w-full">
+        <div className="navbar-end sm:navbar-start flex justify-between  w-full ">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg

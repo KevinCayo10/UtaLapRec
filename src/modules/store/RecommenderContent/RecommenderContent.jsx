@@ -15,8 +15,6 @@ function RecommenderContent({ onDataLengthChange }) {
   const itemsPerPage = 10; // Número de productos por página
   const { addItemToCart } = useContext(CartContext);
 
-  const getProductWishes = () => {};
-
   const fethProductRecommenderContent = () => {
     const products_wish =
       JSON.parse(localStorage.getItem("tuportatil-cart")) || [];
@@ -38,8 +36,8 @@ function RecommenderContent({ onDataLengthChange }) {
         return response.json();
       })
       .then((data) => {
-        console.log("RECO CONTENT : " + data);
-        if (data.data != []) {
+        console.log(data);
+        if (data.data.length > 0) {
           setProductsRecommender(data.data);
           setLoading(false);
           onDataLengthChange(data.data.length || 0);
