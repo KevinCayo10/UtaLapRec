@@ -120,6 +120,7 @@ function ItemCard({ ...props }) {
             id={id}
             images={urlImg}
             alt={title}
+            store_name={store_name}
             handleCaptureError={handleImageError}
           />
           <div>

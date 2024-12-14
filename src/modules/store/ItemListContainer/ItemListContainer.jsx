@@ -116,10 +116,6 @@ function ItemListContainer({ ...props }) {
         <Loading />
       ) : (
         <>
-          <img
-            src="https://corsproxy.io/?url=https://www.tekboss.com.ec/wp-content/uploads/2024/04/fc00392-100x100.jpg"
-            alt="teekboss"
-          />
           <div className="flex flex-col lg:flex-row w-full gap-4">
             {/* Filtros */}
             <div className="lg:w-1/6 w-full ">
