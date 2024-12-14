@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // Componentes
@@ -6,25 +6,25 @@ import Paginator from "../Paginator";
 import ItemList from "../ItemList/ItemList";
 import Filter from "../Filter";
 import Loading from "@/modules/layout/Loading";
+import { useSortContext } from "@/context/SortContext";
+import { useFilterContext } from "@/context/FilterContext";
 
 function ItemListContainer({ ...props }) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  const { selectedSort, setSelectedSort } = useSortContext(); // Acceder al SortContext
+  const { filters, setFilters, currentPage, setCurrentPage } =
+    useFilterContext(); // Acceder al FilterContext
+
   const itemsPerPage = 12; // Número de productos por página
-  const [filters, setFilters] = useState({
-    selectedBrand: "",
-    selectedCategory: "",
-    selectedStoreName: "",
-    priceMin: 100,
-    priceMax: 200,
-  });
   const { categoryId } = useParams();
-  const [hasRegistered, setHasRegistered] = useState(false);
 
   const getProduct = () => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/products`)
+    fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/api/products/filters?sort=${selectedSort}`
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error en la solicitud");
@@ -40,13 +40,13 @@ function ItemListContainer({ ...props }) {
 
   useEffect(() => {
     getProduct(); // Si no hay un categoryId, obtiene todos los productos
-  }, []);
+  }, [selectedSort]);
 
   // Filtrar productos según los filtros seleccionados
   useEffect(() => {
     const filterProducts = () => {
-      console.log(filters);
       let filtered = [...products];
+
       // Filtrar por marca
       if (filters.selectedBrand) {
         filtered = filtered.filter(
@@ -67,8 +67,9 @@ function ItemListContainer({ ...props }) {
           (product) => product.store_name === filters.selectedStoreName
         );
       }
+
+      // Filtrar por precio
       if (filters.priceMin || filters.priceMax) {
-        // Filtrar por precio
         filtered = filtered.filter(
           (product) =>
             product.price >= filters.priceMin &&
@@ -88,7 +89,7 @@ function ItemListContainer({ ...props }) {
     };
 
     filterProducts(); // Aplicar los filtros cada vez que los filtros cambian
-  }, [filters, products]); // Los filtros o los productos deben cambiar para que se aplique el filtro
+  }, [filters, products]);
 
   // Paginación
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -99,34 +100,70 @@ function ItemListContainer({ ...props }) {
   );
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber); // Actualiza la página en el contexto
   };
 
   const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
+    setFilters(newFilters); // Actualiza los filtros en el contexto
   };
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   return (
-    <div className="container flex flex-col items-center gap-4 mx-auto">
+    <div className="container flex flex-col gap-4 mx-auto">
       {props.children}
       {loading ? (
         <Loading />
       ) : (
         <>
-          <div className="flex flex-col lg:flex-row   items-start sm:items-center w-full  px-4 sm:justify-between justify-start">
-            <Filter onFilterChange={handleFilterChange} />
-            <p className=" p-4  mb-8 badge badge-primary ">
-              {filteredProducts.length}
-            </p>
-          </div>
-          <ItemList products={currentProducts} />
-          <Paginator
-            totalPages={totalPages}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
+          <img
+            src="https://corsproxy.io/?url=https://www.tekboss.com.ec/wp-content/uploads/2024/04/fc00392-100x100.jpg"
+            alt="teekboss"
           />
+          <div className="flex flex-col lg:flex-row w-full gap-4">
+            {/* Filtros */}
+            <div className="lg:w-1/6 w-full ">
+              <Filter onFilterChange={handleFilterChange} />
+            </div>
+
+            {/* Productos y Paginación */}
+            <div className="lg:w-5/6 w-full flex flex-col gap-4 items-center">
+              {/* Contador de Productos */}
+              <div className="flex flex-col sm:flex-row   w-full justify-end items-center gap-4">
+                <div className="indicator w-full sm:w-auto">
+                  <span className="indicator-item indicator-top indicator-center badge badge-ghost badge-sm">
+                    Ordenar por
+                  </span>
+                  <select
+                    className="select select-bordered w-full sm:w-full"
+                    value={selectedSort}
+                    onChange={(e) => setSelectedSort(e.target.value)}
+                  >
+                    <option value="price_asc">Precio: Menor a Mayor</option>
+                    <option value="price_desc">Precio: Mayor a Menor</option>
+                    <option value="brand_asc">Marca: A-Z</option>
+                    <option value="brand_desc">Marca: Z-A</option>
+                    <option value="relevance">Relevancia</option>
+                  </select>
+                </div>
+                <p className=" badge badge-primary self-center h-full">
+                  {filteredProducts.length} Productos
+                </p>
+              </div>
+
+              {/* Lista de Productos */}
+              <ItemList products={currentProducts} />
+
+              {/* Paginador */}
+              <Paginator
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </div>
+
+          {/* Indicador de Carga */}
           <span className="loading loading-dots loading-sm"></span>
         </>
       )}

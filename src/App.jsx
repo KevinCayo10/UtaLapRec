@@ -25,6 +25,8 @@ import HomeContainer from "./modules/home/HomeContainer";
 // Importa la librería uuid para generar un UUID único
 import { v4 as uuidv4 } from "uuid";
 import Timer from "./modules/ui/Timer";
+import { SortProvider } from "./context/SortContext";
+import { FilterProvider } from "./context/FilterContext";
 
 function App() {
   // Genera el user_id si no existe en localStorage
@@ -53,27 +55,37 @@ function App() {
       )}
       <div className="container flex flex-col gap-5 m-auto max-w-7xl">
         <BrowserRouter>
-          <CartProvider>
-            <Header />
-            {/* <Timer /> */}
-            <div className="h-screen">
-              <Routes>
-                <Route path="/" element={<HomeContainer />} />
-                <Route path="/store" element={<ItemListContainer />} />
-                <Route path="/recommender" element={<RecommenderContainer />} />
-                <Route
-                  path="/category/:categoryId"
-                  element={<ItemListContainer />}
-                />
-                <Route path="/:productId" element={<ItemDetailContainer />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route
-                  path="*"
-                  element={<h1 className="flex-1">404 - NO ENCONTRADO</h1>}
-                />
-              </Routes>
-            </div>
-          </CartProvider>
+          <FilterProvider>
+            <SortProvider>
+              <CartProvider>
+                <Header />
+                <Timer />
+                <div className="h-screen">
+                  <Routes>
+                    <Route path="/" element={<HomeContainer />} />
+                    <Route path="/store" element={<ItemListContainer />} />
+                    <Route
+                      path="/recommender"
+                      element={<RecommenderContainer />}
+                    />
+                    <Route
+                      path="/category/:categoryId"
+                      element={<ItemListContainer />}
+                    />
+                    <Route
+                      path="/:productId"
+                      element={<ItemDetailContainer />}
+                    />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route
+                      path="*"
+                      element={<h1 className="flex-1">404 - NO ENCONTRADO</h1>}
+                    />
+                  </Routes>
+                </div>
+              </CartProvider>
+            </SortProvider>
+          </FilterProvider>
         </BrowserRouter>
       </div>
     </div>
