@@ -2,60 +2,60 @@
 
 // Imágenes de productos
 export const PUBLIC_IMG_PATH = {
-  productImages: '/product-images',
-  featureIcons: '/feature-icons',
-  images: '/images'
-}
+  productImages: "/product-images",
+  featureIcons: "/feature-icons",
+  images: "/images",
+};
 
-export const LOAD_CART_MOCK = false
+export const LOAD_CART_MOCK = false;
 
 export const cartSteps = [
-  { path: '/cart', label: 'Carrito' },
-  { path: '/checkout', label: 'Detalles del pago' },
-  { path: '/success', label: 'Pedido completado' }
-]
+  { path: "/cart", label: "Carrito" },
+  { path: "/checkout", label: "Detalles del pago" },
+  { path: "/success", label: "Pedido completado" },
+];
 
 export const SOCIAL_ACCOUNTS = [
   {
-    name: 'Instagram',
-    url: '#',
-    icon: 'IconInstagram'
+    name: "Instagram",
+    url: "#",
+    icon: "IconInstagram",
   },
   {
-    name: 'WhatsApp',
-    url: '#',
-    icon: 'IconWhatsapp'
-  }
-]
+    name: "WhatsApp",
+    url: "#",
+    icon: "IconWhatsapp",
+  },
+];
 
 // Rutas de la API - Menú de Categorías
 export const CATEGORIES = [
   {
-    title: 'Notebooks',
-    route: 'notebooks'
+    title: "Notebooks",
+    route: "notebooks",
   },
   {
-    title: 'Notebooks Gamer',
-    route: 'gamer'
+    title: "Notebooks Gamer",
+    route: "gamer",
   },
   {
-    title: 'Gadgets',
-    route: 'gadgets'
-  }
-]
+    title: "Gadgets",
+    route: "gadgets",
+  },
+];
 
 export const ANNOUNCEMENT = {
   active: false,
   showReportErrorButton: true,
-  title: '⚠️ Esta no es una tienda real. Es un ejercicio de programación! ⚠️',
+  title: "⚠️ Esta no es una tienda real. Es un ejercicio de programación! ⚠️",
   style: {
-    error: 'bg-error',
-    info: 'bg-info',
-    warning: 'bg-warning',
-    success: 'bg-success',
-    primary: 'bg-primary',
-    secondary: 'bg-secondary',
-    accent: 'bg-accent',
-    ghost: 'bg-ghost'
-  }
-}
+    error: "bg-error",
+    info: "bg-info",
+    warning: "bg-warning",
+    success: "bg-success",
+    primary: "bg-primary",
+    secondary: "bg-secondary",
+    accent: "bg-accent",
+    ghost: "bg-ghost",
+  },
+};

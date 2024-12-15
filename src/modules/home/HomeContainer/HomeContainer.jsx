@@ -153,6 +153,26 @@ function HomeContainer() {
           )}
         </div>
       </section>
+      <section className="download-app py-20 px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-semibold text-gray-800 mb-4">
+            ¡Descarga nuestra aplicación móvil!
+          </h2>
+          <p className="text-lg text-gray-600 mb-6">
+            Escanea el código QR para descargar nuestra aplicación y disfrutar
+            de una experiencia de compra más rápida y sencilla.
+          </p>
+        </div>
+        <div className="flex justify-center">
+          <div className="border-4 border-blue-500 p-4 rounded-lg shadow-lg">
+            <img
+              src={`${PUBLIC_IMG_PATH.images}/app_uta_lap_rec.svg`} // Asegúrate de tener el archivo SVG del QR en la ruta correcta
+              alt="QR Code para la app"
+              className="w-40 h-40 object-contain"
+            />
+          </div>
+        </div>
+      </section>
       <Footer />
     </div>
   );
