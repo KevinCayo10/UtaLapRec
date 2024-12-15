@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import ItemCard from "@/modules/store/ItemCard";
 import Loading from "@/modules/layout/Loading";
+import LinkIcon from "@/modules/ui/Icons/LinkIcon";
+import { Link } from "react-router-dom";
 
 function ItemDetail({ ...props }) {
   const {
@@ -78,16 +80,22 @@ function ItemDetail({ ...props }) {
           <div className="flex flex-col items-center w-full pt-0 sm:pt-10 sm:items-start">
             {/* TODO: Agregar al carrito */}
             {availability && stock > 0 ? (
-              <ItemCount
-                initial={initialCount}
-                stock={stock}
-                onAdd={handleOnAdd}
-              />
+              <p className="text-2xl font-bold text-center text-primary">
+                Producto disponible
+              </p>
             ) : (
               <p className="text-2xl font-bold text-center text-gray-500">
                 Producto no disponible
               </p>
             )}
+            <a
+              href={link}
+              target="_blank"
+              className="flex items-center px-4 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200 my-2 text-base"
+            >
+              <LinkIcon className="mr-2" />
+              Ver en {store_name}
+            </a>
           </div>
         </div>
 
@@ -125,7 +133,7 @@ function ItemDetail({ ...props }) {
         {characteristics && <ProductSpecs features={characteristics} />}
       </main>
       <section className="">
-        <h2 className="text-2xl card-title my-4 text-primary">
+        <h2 className="text-2xl card-title my-4 text-primary mx-4">
           Recomendado para ti
         </h2>
         {loading ? (
@@ -133,7 +141,7 @@ function ItemDetail({ ...props }) {
             <Loading />
           </div>
         ) : (
-          <div className="grid justify-center  grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+          <div className="grid justify-center item-center grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
             {products.map((product) => {
               return (
                 <ItemCard
