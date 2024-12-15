@@ -87,8 +87,7 @@ function HomeContainer() {
           </h2>
           <p className="text-lg text-gray-600">
             Nuestro sistema utiliza tecnología avanzada para sugerir productos
-            ideales para ti, basados en tus preferencias y comportamientos. Con
-            nosotros, siempre estarás un paso adelante.
+            ideales para ti, basados en tus preferencias y comportamientos.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 px-6">
