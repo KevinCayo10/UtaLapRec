@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Loading from "@/modules/layout/Loading";
 import { useContext } from "react";
 import { CartContext } from "@/context/CartContext";
+import { Link } from "react-router-dom";
 
 function RecommenderContent({ onDataLengthChange }) {
   const [productsIds, setProductsIds] = useState([]);
@@ -14,6 +15,7 @@ function RecommenderContent({ onDataLengthChange }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Número de productos por página
   const { addItemToCart } = useContext(CartContext);
+  const [noRecommendations, setNoRecommendations] = useState(false); // Nuevo estado
 
   const fethProductRecommenderContent = () => {
     const products_wish =
@@ -39,8 +41,12 @@ function RecommenderContent({ onDataLengthChange }) {
         console.log(data);
         if (data.data.length > 0) {
           setProductsRecommender(data.data);
+          setNoRecommendations(false); // Hay recomendaciones
           setLoading(false);
           onDataLengthChange(data.data.length || 0);
+        } else {
+          setNoRecommendations(true); // No hay recomendaciones
+          setLoading(false);
         }
       })
       .catch((error) => console.error(error));
@@ -70,6 +76,18 @@ function RecommenderContent({ onDataLengthChange }) {
     <div className="container flex flex-col items-center gap-4 mx-auto">
       {loading ? (
         <Loading />
+      ) : noRecommendations ? (
+        <div className="text-center text-gray-600">
+          <p className="text-lg mb-4">
+            Selecciona primero el producto que más te guste{" "}
+            <Link
+              to="/store"
+              className="text-blue-600 hover:text-blue-800 font-semibold"
+            >
+              Ir a la tienda
+            </Link>
+          </p>
+        </div>
       ) : (
         <>
           <ItemList products={currentProducts} />
