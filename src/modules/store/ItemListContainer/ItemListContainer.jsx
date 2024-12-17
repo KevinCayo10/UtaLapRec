@@ -63,8 +63,51 @@ function ItemListContainer({ ...props }) {
 
       // Filtrar por store name
       if (filters.selectedStoreName) {
+        filtered = filtered.filter((product) =>
+          product.characteristics?.ram
+            ?.toLowerCase()
+            ?.includes(filters.selectedProcesor.toLowerCase())
+        );
+      }
+      // Filtrar por store name
+      if (filters.selectedProcessor) {
         filtered = filtered.filter(
-          (product) => product.store_name === filters.selectedStoreName
+          (product) =>
+            product.characteristics?.procesador?.text
+              ?.toLowerCase()
+              ?.includes(filters.selectedProcessor.toLowerCase()) ||
+            product.title
+              .toLowerCase()
+              .includes(filters.selectedProcessor.toLowerCase())
+        );
+      }
+
+      // Filtrar por almacenamiento
+      if (filters.selectedStorage) {
+        filtered = filtered.filter(
+          (product) =>
+            product.characteristics?.almacenamiento?.text
+              ? product.characteristics?.almacenamiento?.text
+                  .toLowerCase()
+                  .includes(filters.selectedStorage.toLowerCase()) ||
+                product.title
+                  .toLowerCase()
+                  .includes(filters.selectedStorage.toLowerCase())
+              : true // Si no hay almacenamiento, no se filtra (se incluye)
+        );
+      }
+      // Filtrar por almacenamiento
+      if (filters.selectedRam) {
+        filtered = filtered.filter(
+          (product) =>
+            product.characteristics?.ram?.text
+              ? product.characteristics?.ram?.text
+                  .toLowerCase()
+                  .includes(filters.selectedRam.toLowerCase()) ||
+                product.title
+                  .toLowerCase()
+                  .includes(filters.selectedRam.toLowerCase())
+              : true // Si no hay almacenamiento, no se filtra (se incluye)
         );
       }
 
@@ -77,7 +120,7 @@ function ItemListContainer({ ...props }) {
         );
       }
 
-      // Filtrar por título
+      //       // Filtrar por título
       if (filters.searchTitle) {
         const searchTerm = filters.searchTitle.toLowerCase();
         filtered = filtered.filter((product) =>
