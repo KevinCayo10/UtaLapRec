@@ -106,25 +106,6 @@ function Filter({ onFilterChange }) {
         </select>
       </div>
 
-      {/* Filtro de Marca */}
-      <div className="indicator w-full sm:w-auto">
-        <span className="indicator-item indicator-top indicator-center badge badge-ghost badge-sm">
-          Marca
-        </span>
-        <select
-          className="select select-bordered w-full"
-          value={selectedBrand}
-          onChange={(e) => setSelectedBrand(e.target.value)}
-        >
-          <option value="">Todas</option>
-          {brands.map((brand) => (
-            <option key={brand} value={brand}>
-              {brand}
-            </option>
-          ))}
-        </select>
-      </div>
-
       {/* Filtro de Categoría */}
       <div className="indicator w-full sm:w-auto">
         <span className="indicator-item indicator-top indicator-center badge badge-ghost badge-sm">
@@ -139,6 +120,24 @@ function Filter({ onFilterChange }) {
           {categories.map((category) => (
             <option key={category} value={category}>
               {category}
+            </option>
+          ))}
+        </select>
+      </div>
+      {/* Filtro de Marca */}
+      <div className="indicator w-full sm:w-auto">
+        <span className="indicator-item indicator-top indicator-center badge badge-ghost badge-sm">
+          Marca
+        </span>
+        <select
+          className="select select-bordered w-full"
+          value={selectedBrand}
+          onChange={(e) => setSelectedBrand(e.target.value)}
+        >
+          <option value="">Todas</option>
+          {brands.map((brand) => (
+            <option key={brand} value={brand}>
+              {brand}
             </option>
           ))}
         </select>
