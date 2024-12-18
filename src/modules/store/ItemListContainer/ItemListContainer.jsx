@@ -63,12 +63,16 @@ function ItemListContainer({ ...props }) {
 
       // Filtrar por store name
       if (filters.selectedStoreName) {
+        console.log("SELECT : ", filters.selectedStoreName.toLowerCase());
         filtered = filtered.filter((product) =>
-          product.characteristics?.ram
-            ?.toLowerCase()
-            ?.includes(filters.selectedProcesor.toLowerCase())
+          product.store_name
+            ? product.store_name
+                ?.toLowerCase()
+                ?.includes(filters.selectedStoreName.toLowerCase())
+            : true
         );
       }
+
       // Filtrar por store name
       if (filters.selectedProcessor) {
         filtered = filtered.filter(
