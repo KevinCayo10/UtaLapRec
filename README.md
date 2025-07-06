@@ -1,10 +1,4 @@
-# Ecommerce con React.js
 
-- Curso: ReactJS (2023)
-- Comisión: 39655
-- Profesor: Francisco Pugh
-- Alumno: Matias Baldanza
-- Fecha: 2023-05-16
 
 ## Deploy
 
@@ -87,4 +81,11 @@ Agregar en el `root` un archivo `vercel.json` con este contenido
 Fuente: [https://github.com/vercel/vercel/issues/7475#issuecomment-1101659972](https://github.com/vercel/vercel/issues/7475#issuecomment-1101659972)
 
 Autor:
+# Ecommerce con React.js
+
+- Curso: ReactJS (2023)
+- Comisión: 39655
+- Profesor: Francisco Pugh
+- Alumno: Matias Baldanza
+- Fecha: 2023-05-16
 [Matias Baldanza](https://github.com/matiasbaldanza)
