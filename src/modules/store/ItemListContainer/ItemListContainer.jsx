@@ -8,6 +8,7 @@ import Filter from "../Filter";
 import Loading from "@/modules/layout/Loading";
 import { useSortContext } from "@/context/SortContext";
 import { useFilterContext } from "@/context/FilterContext";
+import toast from "react-hot-toast";
 
 function ItemListContainer({ ...props }) {
   const [products, setProducts] = useState([]);
@@ -153,7 +154,20 @@ function ItemListContainer({ ...props }) {
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters); // Actualiza los filtros en el contexto
   };
-
+  const startScraping = () => {
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/start-scraping`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la solicitud");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        toast.success("Empiezo de scraping");
+      })
+      .catch((error) => console.error(error));
+  };
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   return (
@@ -192,6 +206,13 @@ function ItemListContainer({ ...props }) {
                 <p className=" badge badge-primary self-center h-full">
                   {filteredProducts.length} Productos
                 </p>
+
+                <button
+                  className=" badge badge-info text-white self-center h-full"
+                  onClick={startScraping}
+                >
+                  Actualizar productos
+                </button>
               </div>
 
               {/* Lista de Productos */}

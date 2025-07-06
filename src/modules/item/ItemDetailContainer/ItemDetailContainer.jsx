@@ -15,6 +15,7 @@ function ItemDetailContainer() {
   const { productId } = useParams();
 
   const getProductDetail = () => {
+    console.log("ENTRO A GET PRODUCT");
     setLoading(true);
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/products/${productId}`)
       .then((response) => {
