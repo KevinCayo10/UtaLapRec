@@ -21,12 +21,9 @@ export const FilterProvider = ({ children }) => {
     priceMax: 2000,
     searchTitle: "",
   });
-  const [currentPage, setCurrentPage] = useState(1); // Estado de la página actual
 
   return (
-    <FilterContext.Provider
-      value={{ filters, setFilters, currentPage, setCurrentPage }}
-    >
+    <FilterContext.Provider value={{ filters, setFilters }}>
       {children}
     </FilterContext.Provider>
   );

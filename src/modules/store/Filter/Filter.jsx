@@ -1,8 +1,7 @@
 import { useFilterContext } from "@/context/FilterContext";
 import React, { useState, useEffect } from "react";
 
-function Filter({ onFilterChange }) {
-  const { filters, setFilters } = useFilterContext(); // Acceder al FilterContext
+function Filter({ filters, setFilters }) {
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [stores_name, setStores_name] = useState([]);
@@ -61,25 +60,13 @@ function Filter({ onFilterChange }) {
       priceMax,
       searchTitle,
     };
-    onFilterChange(newFilters);
+    setFilters(newFilters);
   };
 
   useEffect(() => {
+    console.log("erload filters .....")
     getFilterValues();
   }, []);
-  useEffect(() => {
-    handleFilterChange();
-  }, [
-    selectedBrand,
-    selectedCategory,
-    selectedStoreName,
-    selectedProcessor,
-    selectedStorage,
-    selectedRam,
-    priceMin,
-    priceMax,
-    searchTitle,
-  ]);
 
   return (
     <div className="flex flex-col gap-4 mb-8 sm:flex-col">
@@ -95,7 +82,10 @@ function Filter({ onFilterChange }) {
         <select
           className="select select-bordered w-full"
           value={selectedStoreName}
-          onChange={(e) => setSelectedStoreName(e.target.value)}
+          onChange={(e) => {
+            setSelectedStoreName(e.target.value);
+            handleFilterChange();
+          }}
         >
           <option value="">Todas</option>
           {stores_name.map((store_name) => (
@@ -114,7 +104,10 @@ function Filter({ onFilterChange }) {
         <select
           className="select select-bordered w-full"
           value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          onChange={(e) => {
+            setSelectedCategory(e.target.value);
+            handleFilterChange();
+          }}
         >
           <option value="">Todas</option>
           {categories.map((category) => (
@@ -132,7 +125,10 @@ function Filter({ onFilterChange }) {
         <select
           className="select select-bordered w-full"
           value={selectedBrand}
-          onChange={(e) => setSelectedBrand(e.target.value)}
+          onChange={(e) => {
+            setSelectedBrand(e.target.value);
+            handleFilterChange();
+          }}
         >
           <option value="">Todas</option>
           {brands.map((brand) => (
@@ -151,7 +147,10 @@ function Filter({ onFilterChange }) {
         <select
           className="select select-bordered w-full"
           value={selectedProcessor}
-          onChange={(e) => setSelectedProcessor(e.target.value)}
+          onChange={(e) => {
+            setSelectedProcessor(e.target.value);
+            handleFilterChange();
+          }}
         >
           <option value="">Todos</option>
           {processors.map((processor) => (
@@ -170,7 +169,10 @@ function Filter({ onFilterChange }) {
         <select
           className="select select-bordered w-full"
           value={selectedStorage}
-          onChange={(e) => setSelectedStorage(e.target.value)}
+          onChange={(e) => {
+            setSelectedStorage(e.target.value);
+            handleFilterChange();
+          }}
         >
           <option value="">Todos</option>
           {storages.map((storage) => (
@@ -189,7 +191,10 @@ function Filter({ onFilterChange }) {
         <select
           className="select select-bordered w-full"
           value={selectedRam}
-          onChange={(e) => setSelectedRam(e.target.value)}
+          onChange={(e) => {
+            setSelectedRam(e.target.value);
+            handleFilterChange();
+          }}
         >
           <option value="">Todos</option>
           {rams.map((ram) => (
@@ -210,7 +215,10 @@ function Filter({ onFilterChange }) {
             type="number"
             className="input input-bordered w-full"
             value={priceMin}
-            onChange={(e) => setPriceMin(e.target.value)}
+            onChange={(e) => {
+              setPriceMin(e.target.value);
+              handleFilterChange();
+            }}
             placeholder="Min"
           />
         </div>
@@ -222,7 +230,10 @@ function Filter({ onFilterChange }) {
             type="number"
             className="input input-bordered w-full"
             value={priceMax}
-            onChange={(e) => setPriceMax(e.target.value)}
+            onChange={(e) => {
+              setPriceMax(e.target.value);
+              handleFilterChange();
+            }}
             placeholder="Max"
           />
         </div>
@@ -238,7 +249,10 @@ function Filter({ onFilterChange }) {
           className="input input-bordered w-full"
           placeholder="Buscar por palabra clave..."
           value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
+          onChange={(e) => {
+            setSearchTitle(e.target.value);
+            handleFilterChange();
+          }}
         />
       </div>
     </div>

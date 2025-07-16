@@ -103,17 +103,6 @@ function ItemCard({ ...props }) {
             </p>
           </div>
         </div>
-        {/* <div
-          className="absolute z-10 hidden group-hover:block top-56 left-4"
-          onClick={handleChildClick}
-        >
-          {stock > 0 && availability ? (
-            <p className="z-40 text-xs font-bold uppercase badge">Disponible</p>
-          ) : (
-            <p className="z-40 text-xs font-bold uppercase badge">Sin stock</p>
-          )}
-        </div> */}
-        {/* Aquí colocamos el QuickAddToCart con un z-index alto */}
 
         <div className="p-2 pt-0 card-body ">
           <ItemPreview

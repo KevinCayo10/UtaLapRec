@@ -15,6 +15,7 @@ function ItemDetailContainer() {
   const { productId } = useParams();
 
   const getProductDetail = () => {
+    console.log("ENTRO A GET PRODUCT");
     setLoading(true);
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}api/products/${productId}`)
       .then((response) => {
@@ -32,7 +33,6 @@ function ItemDetailContainer() {
   };
 
   const registerInteractionView = () => {
-    console.log("HELLO REGISTER");
     const user_id = localStorage.getItem("user_id");
     const payload = {
       user_id: user_id,
